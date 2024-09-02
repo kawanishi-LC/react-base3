@@ -7,5 +7,5 @@ test("test", async ({ page }) => {
   await page.locator('input[type="password"]').click();
   await page.locator('input[type="password"]').fill("1234");
   await page.getByRole("button", { name: "ログイン" }).click();
-  await expect(page).toHaveTitle("ログイン");
+  await expect(page).toHaveTitle("Vite + React");
 });
