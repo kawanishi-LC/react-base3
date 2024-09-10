@@ -1,0 +1,57 @@
+html{
+    background-color: #f0f0f0;
+}
+
+.contents{
+    width: 100%;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container{
+    width: 72%;
+    margin:0 auto;
+    background-color: #f0f0f0;
+}
+
+.container__title{
+    margin-left: 10px;
+    margin-bottom: 0px;
+}
+
+.container__list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    position: relative;    
+}
+
+.container__list__item{
+    list-style-type: none!important;/*ポチ消す*/
+    padding-bottom: 8px;
+    color: #752100;
+    border-left: solid 6px lightsalmon;/*左側の線*/
+    background: #fff;/*背景色*/
+    margin-bottom: 6px;/*下のバーとの余白*/
+    line-height: 1.5;
+    padding: 0.5em;
+}
+
+.container__pagination{
+    display: flex;    
+    justify-content:space-around;
+}
+
+.container__pagination__button{
+    display: inline-block;
+    text-decoration: underline;
+    align-items: center;
+    width: 100px;
+    height: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;        
+}
+
+
+

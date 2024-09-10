@@ -1,26 +1,30 @@
 @charset "utf-8";
 
-.login {
+.signup {
   width: 500px;
   margin: 0 auto;
 }
-
-.login-form {
+.signup-form {
   margin: 25px 0;
-}
-
-.email-label, .password-label {
   color: #555555;
 }
 
-.email-input, .password-input {
+.email-input,
+.name-input,
+.password-input {
   width: 100%;
   font-size: large;
   height: 30px;
   margin-bottom: 25px;
 }
 
-.login-button {
+.file-input {
+  font-size: medium;
+  margin-bottom: 25px;    
+}
+
+
+.signup-button {
   background-color: #ff6347;
   color: #ffffff;
   width: 100px;

@@ -1,25 +1,20 @@
+import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import "./login.css";
+import "./logIn.css";
 
 //API の BaseURL : railway.bookreview.techtrain.dev
 
-function Signin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export const LogIn = () => {
+  const { register, handleSubmit } = useForm();
   const [errorMessage, setErrorMessage] = useState();
   const [, setCookie] = useCookies();
 
-  const handleEmailChange = (e) => setEmail(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-
-  const onSignIn = () => {
+  const onSubmit = (data) => {
     axios
-      .post(`https://railway.bookreview.techtrain.dev/signin`, {
-        email: email,
-        password: password,
-      })
+      .post(`https://railway.bookreview.techtrain.dev/signin`, data)
       .then((res) => {
         setCookie("token", res.data.token);
         console.log(res.data);
@@ -33,34 +28,43 @@ function Signin() {
   return (
     <>
       <div>
-        <main className="signin">
-          <h2>ログイン</h2>
+        <main className="login">
+          <h2>ログイン画面</h2>
           <p className="error-message">{errorMessage}</p>
-          <form className="signin-form">
+          <form onSubmit={handleSubmit(onSubmit)} className="login-form">
             <label className="email-label">メールアドレス</label>
             <br />
             <input
               type="email"
+              {...register("email", {
+                required: true,
+              })}
               className="email-input"
-              onChange={handleEmailChange}
             />
             <br />
             <label className="password-label">パスワード</label>
             <br />
             <input
               type="password"
+              {...register("password", {
+                required: true,
+                minLength: {
+                  value: 4,
+                  message: "4文字以上入力してください。",
+                },
+              })}
               className="password-input"
-              onChange={handlePasswordChange}
             />
             <br />
-            <button type="button" className="signin-button" onClick={onSignIn}>
+            <button type="submit" className="login-button">
               ログイン
             </button>
           </form>
+          <p>
+            <Link to="/signup">ユーザー新規登録画面へ</Link>
+          </p>
         </main>
       </div>
     </>
   );
-}
-
-export default Signin;
+};
