@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useSelector, useDispatch } from "react-redux";
+import { logIn } from "../authSlice";
 import axios from "axios";
 import Compressor from "compressorjs";
 import "./signUp.css";
@@ -10,9 +12,12 @@ import "./signUp.css";
 
 export const SignUp = () => {
   const { register, handleSubmit } = useForm();
+  const [file, setFile] = useState();
   const [errorMessage, setErrorMessge] = useState();
   const [, setCookie] = useCookies();
-  const [file, setFile] = useState();
+  const auth = useSelector((state) => state.auth.isLogIn);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // 画像ファイルを圧縮する関数
   function compressImage(file) {
@@ -44,7 +49,7 @@ export const SignUp = () => {
       .then((res) => {
         const token = res.data.token;
         console.log(token);
-        setCookie("token", token);
+        setCookie("token", token);        
 
         const formData = new FormData();
         formData.append("icon", file,file.name);
@@ -61,10 +66,15 @@ export const SignUp = () => {
       .then((res) => {
         const iconUrl = res.data
         console.log(iconUrl);
+
+        dispatch(logIn());
+        navigate("/");
       })
       .catch((err) => {
         setErrorMessge(`サインアップに失敗しました。 ${err}`);
       });
+
+    if (auth) return <Navigate to="/" replace />;
   };
 
   return (

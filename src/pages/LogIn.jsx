@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useSelector, useDispatch } from "react-redux";
+import { logIn } from "../authSlice";
 import axios from "axios";
 import "./logIn.css";
 
@@ -11,6 +13,9 @@ export const LogIn = () => {
   const { register, handleSubmit } = useForm();
   const [errorMessage, setErrorMessage] = useState();
   const [, setCookie] = useCookies();
+  const auth = useSelector((state) => state.auth.isLogIn);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();  
 
   const onSubmit = (data) => {
     axios
@@ -18,11 +23,16 @@ export const LogIn = () => {
       .then((res) => {
         setCookie("token", res.data.token);
         console.log(res.data);
+
+        dispatch(logIn());
+        navigate("/");
       })
       .catch((err) => {
         setErrorMessage(`ログインに失敗しました。${err}`);
         console.log(err);
       });
+
+    if (auth) return <Navigate to="/" replace />;
   };
 
   return (
