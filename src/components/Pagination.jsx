@@ -1,29 +1,56 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 import "../pages/home.css";
 
-
 export const Pagination = (props) => {
-  const { books, pageIndex, setPageIndex} = props;
+  const { books, pageIndex, setPageIndex } = props;
+  const [cookies] = useCookies();
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState();
 
-  const listitems = books.map((book, key) => (
-    <li className="container__list__item" key={book.id}>
+  const handleSelectBook = (id) => {
+    const data = {
+      selectBookId: id,
+    };
+
+    axios
+      .post(`https://railway.bookreview.techtrain.dev/logs`, data, {
+        headers: {
+          authorization: `Bearer ${cookies.token}`,
+        },
+      })
+      .then(() => {
+        navigate(`/detail/${id}`);
+      })
+      .catch((err) => {
+        setErrorMessage(`ログの送信に失敗しました。${err}`);
+      });
+  };  
+
+  const listitems = books.map((book) => (
+    <li
+      className="container__list__item"
+      key={book.id}
+    >
       書籍タイトル:{book.title}
-      <br />
-      書籍情報参照URL:<a href={`${book.url}`}>コチラ</a>
-      <br />
-      書籍詳細情報:{book.detail}
       <br />
       読んだ感想:{book.review}
       <br />
-      レビュー者:{book.reviewer}
+      <a href={`/detail/${book.id}`} onClick={() => handleSelectBook(book.id)}>
+        詳細を見る＞＞
+      </a>
+      <br />
+      {book.isMine === true && (<a href={`/edit/${book.id}`}>
+        編集する
+      </a>)}
     </li>
-  ))
+  ));
 
   return (
     <>
-      <ul className="container__list">
-        {listitems}
-      </ul>
-
+      <p className="error-message">{errorMessage}</p>
       <div className="container__pagination">
         <button
           className="container__pagination__button"
@@ -43,7 +70,8 @@ export const Pagination = (props) => {
         >
           最初に戻る
         </button>
-      </div>    
+      </div>
+      <ul className="container__list">{listitems}</ul>
     </>
   );
 };

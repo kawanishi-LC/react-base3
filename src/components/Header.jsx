@@ -38,10 +38,10 @@ export const Header = () => {
         setUserName(response.data.name);
       } catch (error) {
         console.log(error);
-        dispatch(logOut());
       }
     };
     fetchData();
+
   }, []);
 
   return (
@@ -50,8 +50,8 @@ export const Header = () => {
       {auth ? (
         <>
           <p className="header__paragraph">ユーザ名:{userName}</p>
-          <p className="header__link">
-            <Link to="/profile">ユーザー情報を編集</Link>
+          <p>
+            <Link to="/profile" className="header__link">ユーザー情報を編集</Link>
           </p>
 
           <button onClick={handleLogOut} className="header__button">

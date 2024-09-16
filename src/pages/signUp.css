@@ -23,13 +23,21 @@
   margin-bottom: 25px;    
 }
 
-
 .signup-button {
   background-color: #ff6347;
   color: #ffffff;
   width: 100px;
   height: 40px;
   border-radius: 5px;
+}
+
+.delete-button {
+  background-color: #696969;
+  color: #ffffff;
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  margin-left: 36px;
 }
 
 .error-message {

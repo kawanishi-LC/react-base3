@@ -1,0 +1,13 @@
+.container__item{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    color: #752100;
+    background-color: #fff;
+    border-left: solid 6px lightsalmon;/*左側の線*/
+}
+
+.container__paragraph{
+    margin: 8px;
+}

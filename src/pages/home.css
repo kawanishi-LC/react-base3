@@ -14,9 +14,19 @@ html{
     background-color: #f0f0f0;
 }
 
-.container__title{
+.block{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.block__title{
     margin-left: 10px;
     margin-bottom: 0px;
+}
+
+.block__link{
+    margin: auto 12px 0px 12px;
 }
 
 .container__list{

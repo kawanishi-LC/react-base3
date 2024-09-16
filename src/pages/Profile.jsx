@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
@@ -15,7 +15,6 @@ export const Profile = () => {
   const navigate = useNavigate();
 
   const handleNameChange = (e) => setName(e.target.value);
-
 
   const onSubmit = () => {
     const data = {

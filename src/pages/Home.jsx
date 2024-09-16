@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 import "./home.css";
 import { Header } from "../components/Header";
 import { Pagination } from "../components/Pagination";
 
 export const Home = () => {
-
+  const [cookies] = useCookies();
   const [books, setBooks] = useState([]);
   const [pageIndex, setPageIndex] = useState(0);
 
@@ -13,16 +15,21 @@ export const Home = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://railway.bookreview.techtrain.dev/public/books?offset=${pageIndex}`
+          `https://railway.bookreview.techtrain.dev/books?offset=${pageIndex}`,
+          {
+            headers: {
+              authorization: `Bearer ${cookies.token}`,
+            },
+          }
         );
-        console.log(response.data); //レスポンスデータは配列
+        console.log(response.data);
         setBooks(response.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [pageIndex]);
+  }, []);
 
   return (
     <>
@@ -30,9 +37,14 @@ export const Home = () => {
         <Header />
         <main className="contents">
           <div className="container">
-            <h3 className="container__title">書籍レビュー一覧</h3>
+            <div className="block">
+              <h3 className="block__title">書籍レビュー一覧</h3>
+              <p className="block__link">
+                <Link to="/new">書籍レビューを登録する</Link>
+              </p>
+            </div>
             <Pagination
-              books={books} 
+              books={books}
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
             />
